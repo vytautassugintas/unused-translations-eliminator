@@ -9,9 +9,10 @@
   "author": "Vytautas Sugintas",
   "license": "ISC",
   "bin": {
-    "snippet": "./index.js"
+    "telim-check": "./index.js"
   },
   "dependencies": {
+    "colors": "^1.1.2",
     "filehound": "^1.16.1",
     "lodash": "^4.17.4",
     "shelljs": "^0.7.7"

@@ -37,6 +37,14 @@ function findDifferentKeys(usedKeys, keys) {
       });
 }
 
+function excludeErrorKeys(keys){
+    return keys.filter((x) => {
+      if (!x.includes('validation-error')) {
+        return x;
+      }
+    })
+}
+
 function findUsedKeysInApp(keys) {
   var usedKeys = [];
   Filehound.ext('html').paths(dirString + '/src')
@@ -48,8 +56,13 @@ function findUsedKeysInApp(keys) {
       console.log("ALL KEYS: " + keys.length);
       console.log("USED KEYS: " + _.uniq(usedKeys).length);
       console.log("DIFF KEYS: " + findDifferentKeys(_.uniq(usedKeys), keys).length);
+
+      console.log("ALL KEYS WITHOUT ERROR KEYS: " + excludeErrorKeys(keys).length);
+      console.log("DIFF WITHOUT ERROR KEYS: " + excludeErrorKeys(findDifferentKeys(_.uniq(usedKeys), keys)).length);
   });
 
 }
+
+
 
 findUsedKeysInApp(keys);

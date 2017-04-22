@@ -19,6 +19,8 @@ const keys = _.keys(JSON.parse(fs.readFileSync(dirString + '/resources/languages
 const htmlFileDirs = Filehound.create().ext('html').paths(dirString + '/src').findSync();
 const jsFileDirs = Filehound.create().ext('js').paths(dirString + '/src').findSync();
 
+const keysToFilter = ['widget.', '.reminders.', 'validation-error', 'validator'];
+
 function readFile(fileSrc) {
   return fs.readFileSync(fileSrc, 'utf8');
 }
@@ -48,8 +50,8 @@ function findDifferentKeys(usedKeys, keys) {
     });
 }
 
-function isKeyFiltered(key) {
-  return key.includes('widget.') || key.includes('.reminders.') || key.includes('validation-error') || key.includes('validator')
+function isKeyFiltered(arr, key) {
+  return arr.some(filter => key.includes(filter));
 }
 
 function findUsedKeysInApp(keys) {
@@ -58,9 +60,13 @@ function findUsedKeysInApp(keys) {
     .reduce((usedKeys, fileDir) =>
       usedKeys.concat(findUsedKeys(getFileLines(readFile(fileDir)), keys)), [])
 
-  const filteredKeys = findDifferentKeys(_.uniq(usedKeys), keys)
-    .filter((key) => isKeyFiltered(key))
-  const diffKeys = findDifferentKeys(_.uniq(usedKeys), keys)
+  const filteredKeys = findDifferentKeys(
+      _.uniq(usedKeys), keys)
+    .filter((key) => isKeyFiltered(keysToFilter, key))
+
+  const diffKeys = findDifferentKeys(
+    _.uniq(usedKeys), keys)
+
   const filteredDiffKeys = findDifferentKeys(diffKeys, filteredKeys)
 
   printer.printInfo(keys, usedKeys, filteredKeys, diffKeys, filteredDiffKeys)

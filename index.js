@@ -1,25 +1,33 @@
 #! /usr/bin/env node
 
-const shell = require("shelljs");
 const fs = require('fs');
 const _ = require('lodash');
 const Filehound = require('filehound');
 const colors = require('colors');
 const printer = require('./helpers/printer');
 
-//TODO: Support validation keys prefix config
 //TODO: Support widget used in app dir config
+//TODO: Support to exclude keys that ends with uppercase string
 //TODO: Script to remove unused keys
 //TODO: Look up in JS files for keys manipulation
 //TODO: Script to show unused keys line numbers in file for both different languages
 
 const dirString = process.cwd();
 
+const configFileName = '/telem.config.json'
+
 const keys = _.keys(JSON.parse(fs.readFileSync(dirString + '/resources/languages/en.lang.json', 'utf8')));
 const htmlFileDirs = Filehound.create().ext('html').paths(dirString + '/src').findSync();
 const jsFileDirs = Filehound.create().ext('js').paths(dirString + '/src').findSync();
 
-const keysToFilter = ['widget.', '.reminders.', 'validation-error', 'validator'];
+// const keysToFilter = ['widget.', '.reminders.', 'validation-error', 'validator'];
+
+let keysToFilter = [];
+
+if(fs.existsSync(__dirname + configFileName)){
+  console.log(JSON.parse(readFile(__dirname + configFileName)));
+  keysToFilter = JSON.parse(readFile(__dirname + configFileName));
+}
 
 function readFile(fileSrc) {
   return fs.readFileSync(fileSrc, 'utf8');
@@ -54,7 +62,7 @@ function isKeyFiltered(arr, key) {
   return arr.some(filter => key.includes(filter));
 }
 
-function findUsedKeysInApp(keys) {
+function findKeys(keys) {
   const usedKeys = htmlFileDirs
     .concat(jsFileDirs)
     .reduce((usedKeys, fileDir) =>
@@ -72,4 +80,4 @@ function findUsedKeysInApp(keys) {
   printer.printInfo(keys, usedKeys, filteredKeys, diffKeys, filteredDiffKeys)
 }
 
-findUsedKeysInApp(keys);
+findKeys(keys);

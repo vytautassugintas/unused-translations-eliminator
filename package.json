@@ -1,6 +1,6 @@
 {
   "name": "translations-eliminator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tool to let you know which of the translations keys in resources folder is unused in your AngularJS app",
   "main": "index.js",
   "scripts": {
@@ -9,12 +9,13 @@
   "author": "Vytautas Sugintas",
   "license": "ISC",
   "bin": {
-    "telim-check": "./index.js"
+    "telim-check": "./index.js",
+    "telim-config": "./config.js",
+    "telim-config-list": "./config-list.js"
   },
   "dependencies": {
     "colors": "^1.1.2",
     "filehound": "^1.16.1",
-    "lodash": "^4.17.4",
-    "shelljs": "^0.7.7"
+    "lodash": "^4.17.4"
   }
 }

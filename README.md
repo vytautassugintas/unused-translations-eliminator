@@ -1,4 +1,5 @@
 # Unused Translations Eliminator
+CLI tool to eliminate unused string keys
 
 ### Installation 
 `npm i translations-eliminator -g`

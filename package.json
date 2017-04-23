@@ -1,7 +1,8 @@
 {
   "name": "translations-eliminator",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Tool to let you know which of the translations keys in resources folder is unused in your AngularJS app",
+  "repository": "https://github.com/vytautassugintas/unused-translations-eliminator",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
